@@ -105,58 +105,58 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| GMAIL-01 | — | Pending |
-| GMAIL-02 | — | Pending |
-| GMAIL-03 | — | Pending |
-| GMAIL-04 | — | Pending |
-| GMAIL-05 | — | Pending |
-| GMAIL-06 | — | Pending |
-| GMAIL-07 | — | Pending |
-| CLASS-01 | — | Pending |
-| CLASS-02 | — | Pending |
-| CLASS-03 | — | Pending |
-| CLASS-04 | — | Pending |
-| CLASS-05 | — | Pending |
-| CLASS-06 | — | Pending |
-| CLASS-07 | — | Pending |
-| TGRAM-01 | — | Pending |
-| TGRAM-02 | — | Pending |
-| TGRAM-03 | — | Pending |
-| TGRAM-04 | — | Pending |
-| TGRAM-05 | — | Pending |
-| TGRAM-06 | — | Pending |
-| DRAFT-01 | — | Pending |
-| DRAFT-02 | — | Pending |
-| DRAFT-03 | — | Pending |
-| DRAFT-04 | — | Pending |
-| DRAFT-05 | — | Pending |
-| DRAFT-06 | — | Pending |
-| DRAFT-07 | — | Pending |
-| DELEG-01 | — | Pending |
-| DELEG-02 | — | Pending |
-| DELEG-03 | — | Pending |
-| DELEG-04 | — | Pending |
-| DELEG-05 | — | Pending |
-| DELEG-06 | — | Pending |
-| DELEG-07 | — | Pending |
-| DELEG-08 | — | Pending |
-| DELEG-09 | — | Pending |
-| LEARN-01 | — | Pending |
-| LEARN-02 | — | Pending |
-| LEARN-03 | — | Pending |
-| LEARN-04 | — | Pending |
-| LEARN-05 | — | Pending |
-| SPAM-01 | — | Pending |
-| SPAM-02 | — | Pending |
-| SPAM-03 | — | Pending |
-| SPAM-04 | — | Pending |
-| SPAM-05 | — | Pending |
+| GMAIL-01 | Phase 1 | Pending |
+| GMAIL-02 | Phase 1 | Pending |
+| GMAIL-03 | Phase 1 | Pending |
+| GMAIL-04 | Phase 1 | Pending |
+| GMAIL-05 | Phase 1 | Pending |
+| GMAIL-06 | Phase 1 | Pending |
+| GMAIL-07 | Phase 1 | Pending |
+| CLASS-01 | Phase 2 | Pending |
+| CLASS-02 | Phase 2 | Pending |
+| CLASS-03 | Phase 2 | Pending |
+| CLASS-04 | Phase 2 | Pending |
+| CLASS-05 | Phase 2 | Pending |
+| CLASS-06 | Phase 2 | Pending |
+| CLASS-07 | Phase 2 | Pending |
+| TGRAM-01 | Phase 2 | Pending |
+| TGRAM-02 | Phase 2 | Pending |
+| TGRAM-03 | Phase 2 | Pending |
+| TGRAM-04 | Phase 2 | Pending |
+| TGRAM-05 | Phase 2 | Pending |
+| TGRAM-06 | Phase 2 | Pending |
+| DRAFT-01 | Phase 3 | Pending |
+| DRAFT-02 | Phase 3 | Pending |
+| DRAFT-03 | Phase 3 | Pending |
+| DRAFT-04 | Phase 3 | Pending |
+| DRAFT-05 | Phase 3 | Pending |
+| DRAFT-06 | Phase 3 | Pending |
+| DRAFT-07 | Phase 3 | Pending |
+| DELEG-01 | Phase 3 | Pending |
+| DELEG-02 | Phase 3 | Pending |
+| DELEG-03 | Phase 3 | Pending |
+| DELEG-04 | Phase 3 | Pending |
+| DELEG-05 | Phase 3 | Pending |
+| DELEG-06 | Phase 3 | Pending |
+| DELEG-07 | Phase 3 | Pending |
+| DELEG-08 | Phase 3 | Pending |
+| DELEG-09 | Phase 3 | Pending |
+| LEARN-01 | Phase 4 | Pending |
+| LEARN-02 | Phase 4 | Pending |
+| LEARN-03 | Phase 4 | Pending |
+| LEARN-04 | Phase 4 | Pending |
+| LEARN-05 | Phase 4 | Pending |
+| SPAM-01 | Phase 4 | Pending |
+| SPAM-02 | Phase 4 | Pending |
+| SPAM-03 | Phase 4 | Pending |
+| SPAM-04 | Phase 4 | Pending |
+| SPAM-05 | Phase 4 | Pending |
 
 **Coverage:**
-- v1 requirements: 42 total
-- Mapped to phases: 0
-- Unmapped: 42
+- v1 requirements: 46 total
+- Mapped to phases: 46
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-31*
-*Last updated: 2026-03-31 after initial definition*
+*Last updated: 2026-03-31 after roadmap creation*
