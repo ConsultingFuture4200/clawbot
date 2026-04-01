@@ -1,0 +1,96 @@
+# ClawBot — NemoClaw Sandbox Egress Policy
+# See PRD §7.2 for details
+# Default: deny all. Only allowlisted endpoints are reachable.
+
+sandbox:
+  name: clawbot
+  runtime: openshell
+
+# Network egress policy
+egress:
+  default: deny
+
+  allowed:
+    # --- LLM Providers ---
+    - host: api.openai.com
+      ports: [443]
+      comment: OpenAI API (Codex OAuth + embeddings)
+
+    - host: auth.openai.com
+      ports: [443]
+      comment: OpenAI OAuth token refresh
+
+    - host: generativelanguage.googleapis.com
+      ports: [443]
+      comment: Google Gemini API
+
+    - host: api.anthropic.com
+      ports: [443]
+      comment: Anthropic Claude API
+
+    # --- Ollama (local) ---
+    - host: "127.0.0.1"
+      ports: [11434]
+      comment: Local Ollama instance
+
+    # --- Integrations ---
+    - host: api.github.com
+      ports: [443]
+      comment: GitHub API
+
+    - host: api.telegram.org
+      ports: [443]
+      comment: Telegram Bot API
+
+    - host: www.googleapis.com
+      ports: [443]
+      comment: Google Workspace APIs (Gmail, Calendar, Drive)
+
+    - host: gmail.googleapis.com
+      ports: [443]
+      comment: Gmail API v1 (googleapis npm rootUrl, gog CLI)
+
+    - host: oauth2.googleapis.com
+      ports: [443]
+      comment: Google OAuth2
+
+    - host: accounts.google.com
+      ports: [443]
+      comment: Google account auth
+
+    # --- Home Assistant (local network) ---
+    - host: homeassistant.local
+      ports: [8123]
+      comment: Home Assistant REST API (adjust to your HA instance)
+
+    # --- Package Registries (for skill installation) ---
+    - host: registry.npmjs.org
+      ports: [443]
+      comment: npm registry
+
+    - host: pypi.org
+      ports: [443]
+      comment: PyPI
+
+    - host: files.pythonhosted.org
+      ports: [443]
+      comment: PyPI file downloads
+
+# Filesystem policy
+filesystem:
+  rules:
+    - path: /sandbox/
+      access: read-write
+      comment: Agent workspace
+
+    - path: /tmp/
+      access: read-write
+      comment: Temporary files (cleared on restart)
+
+    - path: /mnt/obsidian/
+      access: read-only
+      comment: Obsidian vault (mounted from host)
+
+    - path: /
+      access: deny
+      comment: Everything else blocked
