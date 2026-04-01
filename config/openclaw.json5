@@ -1,0 +1,157 @@
+// ClawBot — OpenClaw Multi-Agent Configuration
+// See PRD §6 for agent definitions, §4 for model strategy
+{
+  // Gateway settings
+  "gateway": {
+    "port": 18789,
+    "host": "0.0.0.0",
+  },
+
+  // Session management
+  "sessions": {
+    "scope": "per-sender",  // Each Telegram user gets isolated sessions
+  },
+
+  // Channels
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "pairing": {
+        "policy": "device",  // One authorized device only
+      },
+    },
+  },
+
+  // Provider configurations (keys loaded from ~/.openclaw/.env)
+  "providers": {
+    "google": {
+      "model": "gemini-3-flash",
+      "default": true,  // Gemini is the bulk workhorse
+    },
+    "openai-codex": {
+      "model": "gpt-5.4",
+      "auth": "oauth",  // ChatGPT Plus subscription OAuth
+    },
+    "anthropic": {
+      "model": "claude-sonnet-4-6",
+      "budgetCap": {
+        "monthly": 30,  // $30/month hard cap
+        "currency": "USD",
+      },
+    },
+    "ollama": {
+      "model": "qwen2.5:7b",
+      "baseUrl": "http://127.0.0.1:11434",
+    },
+    "openai": {
+      "model": "text-embedding-3-small",
+      "embeddingsOnly": true,
+    },
+  },
+
+  // Agent definitions
+  "agents": {
+    "main": {
+      "displayName": "Main (Orchestrator)",
+      "model": "google/gemini-3-flash",
+      "fallback": ["openai-codex/gpt-5.4"],
+      "channelBindings": ["telegram:*"],  // Default fallback for all messages
+      "soul": "agents/main/SOUL.md",
+      "skills": ["shell", "browser", "file-ops"],
+      "routing": {
+        "enabled": true,
+        "targets": ["dev", "comms", "research", "productivity", "home"],
+        "prefixes": {
+          "/dev": "dev",
+          "/comms": "comms",
+          "/research": "research",
+          "/tasks": "productivity",
+          "/home": "home",
+        },
+      },
+    },
+
+    "dev": {
+      "displayName": "Dev",
+      "model": "openai-codex/gpt-5.4",
+      "fallback": ["google/gemini-3-flash"],
+      "soul": "agents/dev/SOUL.md",
+      "skills": ["shell", "github", "git", "file-ops"],
+    },
+
+    "comms": {
+      "displayName": "Comms",
+      "model": "google/gemini-3-flash",
+      "fallback": ["anthropic/claude-sonnet-4-6"],
+      "soul": "agents/comms/SOUL.md",
+      "skills": ["gmail", "google-calendar"],
+      "heartbeat": {
+        "enabled": true,
+        "every": "30m",
+        "model": "ollama/qwen2.5:7b",
+        "activeHours": {
+          "start": "08:00",
+          "end": "20:00",
+          "timezone": "America/Los_Angeles",
+        },
+      },
+      "cron": [
+        {
+          "cron": "0 0 * * *",
+          "tz": "America/Los_Angeles",
+          "task": "overnight-email-check",
+        },
+        {
+          "cron": "0 6 * * *",
+          "tz": "America/Los_Angeles",
+          "task": "overnight-email-check",
+        },
+      ],
+    },
+
+    "research": {
+      "displayName": "Research",
+      "model": "google/gemini-3-flash",
+      "fallback": [],  // No fallback — 1M context is the point
+      "soul": "agents/research/SOUL.md",
+      "skills": ["browser", "file-ops"],
+    },
+
+    "productivity": {
+      "displayName": "Productivity",
+      "model": "google/gemini-3-flash",
+      "fallback": ["openai-codex/gpt-5.4"],
+      "soul": "agents/productivity/SOUL.md",
+      "skills": ["google-calendar", "google-drive", "file-ops"],
+      "heartbeat": {
+        "enabled": true,
+        "schedule": [
+          { "cron": "0 7 * * *", "tz": "America/Los_Angeles", "task": "morning-briefing" },
+          { "cron": "0 21 * * *", "tz": "America/Los_Angeles", "task": "evening-summary" },
+        ],
+        "model": "ollama/qwen2.5:7b",  // Heartbeats use local model
+      },
+    },
+
+    "home": {
+      "displayName": "Home",
+      "model": "ollama/qwen2.5:7b",
+      "fallback": ["google/gemini-3-flash"],
+      "soul": "agents/home/SOUL.md",
+      "skills": ["home-assistant"],
+      "confirmDestructive": true,  // Locks, alarms, cameras require confirmation
+    },
+  },
+
+  // Memory settings
+  "memory": {
+    "storage": "markdown",  // Local-first, portable
+    "embeddings": {
+      "provider": "openai",
+      "model": "text-embedding-3-small",
+    },
+    "backup": {
+      "enabled": false,  // Enable in Phase 3 (nightly GitHub backup)
+    },
+  },
+}
