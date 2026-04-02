@@ -11,7 +11,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **GMAIL-01**: User can authenticate both Gmail accounts (personal + work) via OAuth2 with gmail.readonly, gmail.compose, calendar.readonly scopes
 - [x] **GMAIL-02**: OAuth consent screen is set to Production mode to avoid 7-day token expiry
-- [ ] **GMAIL-03**: Comms agent polls Gmail via `history.list` incremental sync with persisted historyId per account
+- [x] **GMAIL-03**: Comms agent polls Gmail via `history.list` incremental sync with persisted historyId per account
 - [x] **GMAIL-04**: Polling runs on heartbeat schedule with adaptive cadence (faster during business hours, slower nights/weekends)
 - [x] **GMAIL-05**: Personal and work account data are structurally separated (separate sessions, separate memory, separate API calls)
 - [x] **GMAIL-06**: OAuth token health is monitored with proactive refresh before expiry
@@ -107,7 +107,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | GMAIL-01 | Phase 1 | Complete |
 | GMAIL-02 | Phase 1 | Complete |
-| GMAIL-03 | Phase 1 | Pending |
+| GMAIL-03 | Phase 1 | Complete |
 | GMAIL-04 | Phase 1 | Complete |
 | GMAIL-05 | Phase 1 | Complete |
 | GMAIL-06 | Phase 1 | Complete |

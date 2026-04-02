@@ -12,7 +12,7 @@ Transform the comms agent from a passive drafting tool into an active email tria
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Gmail Foundation** - OAuth, polling, heartbeat, and account separation for both Gmail accounts
+- [x] **Phase 1: Gmail Foundation** - OAuth, polling, heartbeat, and account separation for both Gmail accounts
 - [ ] **Phase 2: Classification & Delivery** - Classify emails into 7 categories and surface them to user via Telegram digests
 - [ ] **Phase 3: Drafts & Delegation** - Generate draft replies and route classified emails to specialized agents
 - [ ] **Phase 4: Intelligence Layer** - Learning memory from user corrections and spam/noise management
@@ -75,7 +75,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 / 4 (Phase 3 and 4 can run in paral
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Gmail Foundation | 1/3 | In Progress|  |
+| 1. Gmail Foundation | 3/3 | Complete | 2026-04-01 |
 | 2. Classification & Delivery | 0/? | Not started | - |
 | 3. Drafts & Delegation | 0/? | Not started | - |
 | 4. Intelligence Layer | 0/? | Not started | - |
