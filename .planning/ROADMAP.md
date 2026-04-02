@@ -29,7 +29,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Personal and work email data never appear in the same API session or memory context
   4. OAuth tokens refresh proactively before expiry without user intervention
   5. Sandbox egress policy allows all required Google API endpoints
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [x] 01-01-PLAN.md — Sandbox egress policy, heartbeat/cron config, OAuth env template
+- [x] 01-02-PLAN.md — Gmail OAuth2 setup and verification for both accounts
+- [x] 01-03-PLAN.md — Phase 1 exit criteria verification (26 checks, 7 requirements)
 
 ### Phase 2: Classification & Delivery
 **Goal**: Every incoming email is classified into categories with confidence scores and surfaced to the user via structured Telegram digests
@@ -41,7 +45,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Urgent emails trigger immediate Telegram notification; low-priority emails batch every 3 hours
   4. User can reply with a number in Telegram to select a specific email for action
   5. Unknown senders are flagged for review in the digest
-**Plans**: TBD
+**Plans**: 4 plans
+Plans:
+- [ ] 02-01-PLAN.md — Classification contracts: schema, few-shot examples, types module, @google/genai install
+- [ ] 02-02-PLAN.md — Two-stage pipeline: Ollama spam gate + Gemini batch classifier + sender cache
+- [ ] 02-03-PLAN.md — Telegram digest formatting + delivery orchestration + reply handler
+- [ ] 02-04-PLAN.md — Pipeline integration, 50-email accuracy test, end-to-end verification
 **UI hint**: yes
 
 ### Phase 3: Drafts & Delegation
@@ -76,6 +85,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 / 4 (Phase 3 and 4 can run in paral
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Gmail Foundation | 3/3 | Complete | 2026-04-01 |
-| 2. Classification & Delivery | 0/? | Not started | - |
+| 2. Classification & Delivery | 0/4 | Planning complete | - |
 | 3. Drafts & Delegation | 0/? | Not started | - |
 | 4. Intelligence Layer | 0/? | Not started | - |
