@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to plan
-stopped_at: Phase 2 UI-SPEC approved
-last_updated: "2026-04-02T10:30:23.600Z"
+stopped_at: Completed 02-04-PLAN.md Task 1; Task 2 human-verify checkpoint pending
+last_updated: "2026-04-02T17:48:40.435Z"
 progress:
   total_phases: 4
-  completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
+  completed_phases: 2
+  total_plans: 7
+  completed_plans: 7
 ---
 
 # Project State
@@ -23,7 +23,7 @@ See: .planning/PROJECT.md (updated 2026-03-31)
 
 ## Current Position
 
-Phase: 2
+Phase: 3
 Plan: Not started
 
 ## Performance Metrics
@@ -49,6 +49,9 @@ Plan: Not started
 | Phase 01 P01 | 2min | 2 tasks | 4 files |
 | Phase 01 P02 | 25min | 2 tasks | 5 files |
 | Phase 01 P03 | 5min | 2 tasks | 1 files |
+| Phase 02 P02 | 7min | 2 tasks | 4 files |
+| Phase 02 P03 | 5min | 2 tasks | 4 files |
+| Phase 02 P04 | 4min | 1 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -66,6 +69,11 @@ Recent decisions affecting current work:
 - [Phase 01]: Replaced gog CLI with direct google-auth-library + @googleapis/gmail (gog used Odoo OAuth credentials causing 403)
 - [Phase 01]: Created gmail-oauth-helper.cjs as standalone Node.js OAuth helper for headless token acquisition
 - [Phase 01]: Phase 1 gate verification: 26 checks across 7 GMAIL requirements, all passed
+- [Phase 02]: Fail-open spam gate: Ollama errors return is_spam=false so emails proceed to Gemini
+- [Phase 02]: 6.5s inter-batch Gemini delay to stay under 10 RPM free tier
+- [Phase 02]: HTML parse mode over MarkdownV2 for Telegram messages (3 chars to escape vs 19+)
+- [Phase 02]: Async telegramSendFn callback pattern for delivery testability without direct API coupling
+- [Phase 02]: Classify all 50 test emails through Gemini regardless of spam gate result for independent accuracy measurement
 
 ### Pending Todos
 
@@ -79,6 +87,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-02T10:30:23.593Z
-Stopped at: Phase 2 UI-SPEC approved
-Resume file: .planning/phases/02-classification-delivery/02-UI-SPEC.md
+Last session: 2026-04-02T16:42:55.310Z
+Stopped at: Completed 02-04-PLAN.md Task 1; Task 2 human-verify checkpoint pending
+Resume file: None

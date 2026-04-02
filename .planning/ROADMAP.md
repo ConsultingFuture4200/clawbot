@@ -47,9 +47,9 @@ Plans:
   5. Unknown senders are flagged for review in the digest
 **Plans**: 4 plans
 Plans:
-- [ ] 02-01-PLAN.md — Classification contracts: schema, few-shot examples, types module, @google/genai install
-- [ ] 02-02-PLAN.md — Two-stage pipeline: Ollama spam gate + Gemini batch classifier + sender cache
-- [ ] 02-03-PLAN.md — Telegram digest formatting + delivery orchestration + reply handler
+- [x] 02-01-PLAN.md — Classification contracts: schema, few-shot examples, types module, @google/genai install
+- [x] 02-02-PLAN.md — Two-stage pipeline: Ollama spam gate + Gemini batch classifier + sender cache
+- [x] 02-03-PLAN.md — Telegram digest formatting + delivery orchestration + reply handler
 - [ ] 02-04-PLAN.md — Pipeline integration, 50-email accuracy test, end-to-end verification
 **UI hint**: yes
 
@@ -85,6 +85,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 / 4 (Phase 3 and 4 can run in paral
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Gmail Foundation | 3/3 | Complete | 2026-04-01 |
-| 2. Classification & Delivery | 0/4 | Planning complete | - |
+| 2. Classification & Delivery | 3/4 | In Progress|  |
 | 3. Drafts & Delegation | 0/? | Not started | - |
 | 4. Intelligence Layer | 0/? | Not started | - |
