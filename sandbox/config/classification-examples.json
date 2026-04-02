@@ -1,0 +1,240 @@
+{
+  "description": "Few-shot examples for email classification prompt. 3 examples per category (21 total). Used by buildClassificationPrompt() in types.js.",
+  "examples": [
+    {
+      "sender": "notifications@github.com",
+      "subject": "Review requested: Fix memory leak in worker pool #342",
+      "snippet": "F42k requested your review on pull request #342 in clawbot/backend. Changes include worker pool lifecycle management...",
+      "expected_categories": [
+        { "category": "code", "confidence": 0.95 }
+      ],
+      "reasoning": "GitHub PR review request from a known repository. Direct action needed: review code changes.",
+      "recommended_action": "Review PR #342",
+      "is_urgent": false
+    },
+    {
+      "sender": "ci@github.com",
+      "subject": "[clawbot/backend] CI Build Failed on main - abc1234",
+      "snippet": "Build #891 failed. 3 test failures in worker_pool_test.js. See details at...",
+      "expected_categories": [
+        { "category": "code", "confidence": 0.92 }
+      ],
+      "reasoning": "CI build failure notification on main branch. Indicates broken tests that may block other PRs.",
+      "recommended_action": "Check failing tests in worker_pool_test.js",
+      "is_urgent": false
+    },
+    {
+      "sender": "security-advisories@github.com",
+      "subject": "Critical: Remote code execution in express < 5.1.0",
+      "snippet": "A critical vulnerability has been found in express versions below 5.1.0. Update immediately to patch CVE-2026-...",
+      "expected_categories": [
+        { "category": "code", "confidence": 0.90 },
+        { "category": "urgent", "confidence": 0.85 }
+      ],
+      "reasoning": "Security advisory for a dependency used in the project. Critical severity suggests immediate action needed.",
+      "recommended_action": "Update express dependency to >= 5.1.0",
+      "is_urgent": true
+    },
+    {
+      "sender": "calendar-notification@google.com",
+      "subject": "Invitation: Team standup - Tomorrow 10:00 AM",
+      "snippet": "You have been invited to Team standup by Jane Doe. Tuesday, April 3 at 10:00 AM - 10:15 AM (Pacific Time).",
+      "expected_categories": [
+        { "category": "calendar", "confidence": 0.97 }
+      ],
+      "reasoning": "Google Calendar meeting invitation requiring RSVP response.",
+      "recommended_action": "Accept or decline meeting invitation",
+      "is_urgent": false
+    },
+    {
+      "sender": "john.smith@company.com",
+      "subject": "Re: Can we move Thursday's 1:1 to Friday?",
+      "snippet": "Hey, something came up Thursday afternoon. Would Friday 2pm work instead? Same agenda...",
+      "expected_categories": [
+        { "category": "calendar", "confidence": 0.93 }
+      ],
+      "reasoning": "Meeting reschedule request from a colleague. Needs calendar check and confirmation.",
+      "recommended_action": "Check Friday 2pm availability and reply",
+      "is_urgent": false
+    },
+    {
+      "sender": "noreply@zoom.us",
+      "subject": "Reminder: Design Review in 30 minutes",
+      "snippet": "Your meeting Design Review starts in 30 minutes. Join at https://zoom.us/j/123...",
+      "expected_categories": [
+        { "category": "calendar", "confidence": 0.95 }
+      ],
+      "reasoning": "Upcoming meeting reminder. No action needed other than joining at the scheduled time.",
+      "recommended_action": "Join meeting at scheduled time",
+      "is_urgent": false
+    },
+    {
+      "sender": "arxiv-alert@cornell.edu",
+      "subject": "New paper: Efficient Multi-Agent Coordination via Shared Memory",
+      "snippet": "Authors: Chen et al. Abstract: We propose a novel approach to multi-agent coordination using shared memory banks that reduces communication overhead by 40%...",
+      "expected_categories": [
+        { "category": "research", "confidence": 0.94 }
+      ],
+      "reasoning": "ArXiv paper alert on multi-agent systems, directly relevant to the project's agent architecture.",
+      "recommended_action": "Read abstract, save if relevant",
+      "is_urgent": false
+    },
+    {
+      "sender": "digest@tldrnewsletter.com",
+      "subject": "TLDR AI: GPT-5 benchmarks, Gemini 3 updates, Ollama 2.0",
+      "snippet": "Today's top AI news: OpenAI releases GPT-5 benchmark results showing 15% improvement on reasoning tasks. Google announces Gemini 3 Pro availability...",
+      "expected_categories": [
+        { "category": "research", "confidence": 0.88 }
+      ],
+      "reasoning": "Tech newsletter covering AI developments. Informational content for staying current.",
+      "recommended_action": "Read later during research time",
+      "is_urgent": false
+    },
+    {
+      "sender": "weekly@changelog.com",
+      "subject": "The Changelog Weekly: Node.js 23 LTS, Deno 3.0, Bun updates",
+      "snippet": "This week: Node.js 23 enters LTS, Deno 3.0 ships with full npm compat, and Bun adds native SQLite. Plus interviews with...",
+      "expected_categories": [
+        { "category": "research", "confidence": 0.86 }
+      ],
+      "reasoning": "Developer-focused weekly digest with technology updates. Not time-sensitive.",
+      "recommended_action": "Read later during research time",
+      "is_urgent": false
+    },
+    {
+      "sender": "alerts@ring.com",
+      "subject": "Motion detected at Front Door",
+      "snippet": "Motion was detected at your Front Door camera at 2:35 AM. Tap to view the recording.",
+      "expected_categories": [
+        { "category": "home", "confidence": 0.95 }
+      ],
+      "reasoning": "Home security camera alert. Late-night motion detection may warrant checking the recording.",
+      "recommended_action": "Review camera recording",
+      "is_urgent": false
+    },
+    {
+      "sender": "noreply@pge.com",
+      "subject": "Your March 2026 electricity bill is ready",
+      "snippet": "Your bill for the period Mar 1-31 is $142.50. Due date: April 15, 2026. View your bill online...",
+      "expected_categories": [
+        { "category": "home", "confidence": 0.90 },
+        { "category": "routine", "confidence": 0.75 }
+      ],
+      "reasoning": "Monthly utility bill notification. Routine but has a due date requiring action.",
+      "recommended_action": "Pay bill before April 15",
+      "is_urgent": false
+    },
+    {
+      "sender": "shipment-tracking@amazon.com",
+      "subject": "Your package is out for delivery",
+      "snippet": "Your order #112-3456789 is out for delivery and will arrive today by 8 PM. Track your package...",
+      "expected_categories": [
+        { "category": "home", "confidence": 0.88 }
+      ],
+      "reasoning": "Package delivery notification. Informational, no action required.",
+      "recommended_action": "No action needed, delivery in progress",
+      "is_urgent": false
+    },
+    {
+      "sender": "pagerduty@company.com",
+      "subject": "CRITICAL: Production database connection pool exhausted",
+      "snippet": "Alert: PostgreSQL connection pool at 100% utilization. Service degradation detected on api-server-01. On-call engineer needed...",
+      "expected_categories": [
+        { "category": "urgent", "confidence": 0.98 },
+        { "category": "code", "confidence": 0.88 }
+      ],
+      "reasoning": "Production infrastructure alert indicating active service degradation. Requires immediate engineering response.",
+      "recommended_action": "Investigate database connection pool immediately",
+      "is_urgent": true
+    },
+    {
+      "sender": "jane.doe@company.com",
+      "subject": "URGENT: Client demo moved to 2pm TODAY - prep needed",
+      "snippet": "The client demo originally scheduled for Thursday has been moved to today at 2pm. We need the dashboard prototype ready. Can you...",
+      "expected_categories": [
+        { "category": "urgent", "confidence": 0.96 },
+        { "category": "calendar", "confidence": 0.85 }
+      ],
+      "reasoning": "Urgent meeting change requiring immediate preparation. Both time-sensitive and calendar-related.",
+      "recommended_action": "Prepare dashboard prototype for 2pm demo",
+      "is_urgent": true
+    },
+    {
+      "sender": "security@google.com",
+      "subject": "Security alert: New sign-in from unknown device",
+      "snippet": "We noticed a new sign-in to your Google Account from a Windows device in an unfamiliar location. If this wasn't you...",
+      "expected_categories": [
+        { "category": "urgent", "confidence": 0.97 }
+      ],
+      "reasoning": "Account security alert from Google indicating potential unauthorized access. Requires immediate verification.",
+      "recommended_action": "Verify sign-in activity, secure account if unauthorized",
+      "is_urgent": true
+    },
+    {
+      "sender": "orders@amazon.com",
+      "subject": "Your order has been confirmed (#112-7654321)",
+      "snippet": "Thank you for your order. Your estimated delivery date is April 5-7. Items: USB-C Hub, Monitor Stand...",
+      "expected_categories": [
+        { "category": "routine", "confidence": 0.93 }
+      ],
+      "reasoning": "Standard order confirmation. No action needed, just informational.",
+      "recommended_action": "No action needed",
+      "is_urgent": false
+    },
+    {
+      "sender": "billing@spotify.com",
+      "subject": "Your Spotify Premium renewal receipt",
+      "snippet": "Your subscription has been renewed for $10.99. Next billing date: May 2, 2026. Manage your subscription...",
+      "expected_categories": [
+        { "category": "routine", "confidence": 0.95 }
+      ],
+      "reasoning": "Recurring subscription renewal confirmation. Informational only.",
+      "recommended_action": "No action needed",
+      "is_urgent": false
+    },
+    {
+      "sender": "statements@chase.com",
+      "subject": "Your March 2026 statement is available",
+      "snippet": "Your Chase credit card statement for March 2026 is now available. Statement balance: $1,234.56. Minimum payment due by April 20...",
+      "expected_categories": [
+        { "category": "routine", "confidence": 0.92 }
+      ],
+      "reasoning": "Monthly financial statement. Routine notification with a payment due date.",
+      "recommended_action": "Review statement, ensure payment scheduled",
+      "is_urgent": false
+    },
+    {
+      "sender": "deals@techgadgetstore.com",
+      "subject": "FLASH SALE: 70% off all accessories - TODAY ONLY!",
+      "snippet": "Don't miss our biggest sale of the year! Save up to 70% on cables, chargers, cases and more. Use code FLASH70 at checkout...",
+      "expected_categories": [
+        { "category": "spam_noise", "confidence": 0.96 }
+      ],
+      "reasoning": "Promotional marketing email with urgency tactics. No relevant content.",
+      "recommended_action": "Ignore or unsubscribe",
+      "is_urgent": false
+    },
+    {
+      "sender": "sarah.recruiter@talentfirm.io",
+      "subject": "Exciting opportunity - Senior AI Engineer at [Stealth Startup]",
+      "snippet": "Hi, I came across your profile and was impressed by your experience with LLM agents. We have a pre-Series A stealth startup...",
+      "expected_categories": [
+        { "category": "spam_noise", "confidence": 0.88 }
+      ],
+      "reasoning": "Unsolicited recruiter outreach. Cold email from unknown recruiting firm.",
+      "recommended_action": "Ignore",
+      "is_urgent": false
+    },
+    {
+      "sender": "survey@researchpanel.net",
+      "subject": "Share your opinion and earn $5 - Quick 3-minute survey",
+      "snippet": "You've been selected to participate in a brief survey about your technology usage. Complete it in under 3 minutes and receive...",
+      "expected_categories": [
+        { "category": "spam_noise", "confidence": 0.94 }
+      ],
+      "reasoning": "Unsolicited survey request. Low value, likely mass-mailed.",
+      "recommended_action": "Ignore or mark as spam",
+      "is_urgent": false
+    }
+  ]
+}

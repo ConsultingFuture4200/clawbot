@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "properties": {
+    "classifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "email_index": { "type": "integer" },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string",
+                  "enum": ["code", "calendar", "research", "home", "urgent", "routine", "spam_noise"]
+                },
+                "confidence": { "type": "number" }
+              },
+              "required": ["category", "confidence"]
+            }
+          },
+          "reasoning": { "type": "string" },
+          "recommended_action": { "type": "string" },
+          "is_urgent": { "type": "boolean" }
+        },
+        "required": ["email_index", "categories", "reasoning", "recommended_action", "is_urgent"]
+      }
+    }
+  },
+  "required": ["classifications"]
+}
