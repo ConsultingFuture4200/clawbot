@@ -12,18 +12,17 @@ Every email that needs attention surfaces in Telegram with the right classificat
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] Gmail OAuth wired up for both accounts (personal + work) with read/compose/calendar scopes — *Validated in Phase 01: Gmail Foundation*
+- [x] 7-category classification (code, calendar, research, home, urgent, routine, spam/noise) — *Validated in Phase 02: Classification & Delivery*
+- [x] Multi-label support for emails matching multiple categories — *Validated in Phase 02: Classification & Delivery*
+- [x] Telegram digest grouped by account and priority — *Validated in Phase 02: Classification & Delivery*
 
 ### Active
 
-- [ ] Gmail OAuth wired up for both accounts (personal + work) with read/compose/calendar scopes
 - [ ] Email polling heartbeat running on smart schedule (urgent = immediate, low-priority = every 3 hours)
-- [ ] 7-category classification (code, calendar, research, home, urgent, routine, spam/noise)
-- [ ] Multi-label support for emails matching multiple categories
 - [ ] Learning memory: comms agent asks user for ambiguous classifications, stores patterns in memory file
 - [ ] Agent-to-agent delegation via @mention syntax (comms → dev, productivity, research, home, main)
 - [ ] Delegation queue with user notification when target agent unavailable
-- [ ] Telegram digest grouped by account and priority
 - [ ] Spam/noise filter with suggest-and-confirm bulk approval workflow
 - [ ] Auto-archive for approved noise patterns
 - [ ] Routine acknowledgment drafts (receipts, confirmations → "thanks, got it")
@@ -75,9 +74,9 @@ Every email that needs attention surfaces in Telegram with the right classificat
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Multi-label classification | Emails often span categories (e.g., GitHub calendar invite) | — Pending |
+| Multi-label classification | Emails often span categories (e.g., GitHub calendar invite) | Implemented Phase 02 — classifier returns array of categories |
 | Learning memory for ambiguous emails | Reduces misclassification over time without manual rule-writing | — Pending |
-| Smart batching (urgent=immediate, low=3hr) | Balances responsiveness with notification fatigue | — Pending |
+| Smart batching (urgent=immediate, low=3hr) | Balances responsiveness with notification fatigue | Implemented Phase 02 — urgent bypasses batch buffer, low-priority batched every 3hr |
 | Gmail API drafts (not Telegram preview) | User can edit drafts in Gmail with full formatting tools | — Pending |
 | Suggest + confirm for spam filters | Safe default — no auto-archiving without explicit approval | — Pending |
 | Queue + notify for failed delegations | User stays informed when target agents are unavailable | — Pending |
@@ -100,4 +99,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-31 after initialization*
+*Last updated: 2026-04-02 after Phase 02 completion — classification engine and Telegram delivery layer built*
