@@ -1,0 +1,405 @@
+{
+  "description": "50 labeled test emails for CLASS-07 accuracy validation. All emails are distinct from few-shot examples in classification-examples.json — different senders, subjects, and scenarios.",
+  "emails": [
+    {
+      "sender": "noreply@gitlab.com",
+      "subject": "Merge request !187: Refactor auth middleware",
+      "snippet": "Alex opened merge request !187 targeting main. 14 files changed, 423 additions, 89 deletions. Pipeline passed.",
+      "expected_categories": ["code"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "dependabot@github.com",
+      "subject": "Bump axios from 1.6.2 to 1.7.0",
+      "snippet": "Dependabot opened a PR to bump axios from 1.6.2 to 1.7.0. Release notes: bug fixes and security patches.",
+      "expected_categories": ["code"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "builds@circleci.com",
+      "subject": "Build #2045 succeeded on branch feature/email-triage",
+      "snippet": "All 48 tests passed. Coverage: 87%. Build time: 3m 42s. Deploy preview available at...",
+      "expected_categories": ["code"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "noreply@npmjs.com",
+      "subject": "New advisory: prototype pollution in lodash.merge",
+      "snippet": "A moderate severity vulnerability was found in lodash.merge <4.6.3. We recommend updating to the latest version.",
+      "expected_categories": ["code"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "reviewer@gerrit.corp.net",
+      "subject": "Code review: patch set 3 for CL 91234",
+      "snippet": "Patch set 3 uploaded. Reviewer left 2 comments on api/handler.go. Please address before merge.",
+      "expected_categories": ["code"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "deploy-bot@vercel.com",
+      "subject": "Deployment complete: clawbot-dashboard to production",
+      "snippet": "Production deployment succeeded. URL: https://clawbot-dash.vercel.app. Build time: 1m 15s.",
+      "expected_categories": ["code", "routine"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "github-actions@github.com",
+      "subject": "[clawbot/infra] Release v2.4.0 published",
+      "snippet": "A new release v2.4.0 has been published with 12 commits. Changelog: added healthcheck endpoint, fixed DNS caching...",
+      "expected_categories": ["code"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "sentry@sentry.io",
+      "subject": "New issue: TypeError in email-parser.js line 42",
+      "snippet": "First seen 5 minutes ago. 12 events in the last hour. TypeError: Cannot read properties of undefined (reading 'headers').",
+      "expected_categories": ["code", "urgent"],
+      "expected_is_urgent": true,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "calendar@outlook.com",
+      "subject": "Accepted: Weekly sync with design team",
+      "snippet": "Maria Lopez accepted your meeting invitation for Weekly sync, every Wednesday at 3:00 PM Pacific.",
+      "expected_categories": ["calendar"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "mike.chen@work.org",
+      "subject": "Can we do lunch Thursday instead of coffee?",
+      "snippet": "Hey, the coffee place is closed for renovation. Want to grab lunch at noon instead? Same topics to discuss.",
+      "expected_categories": ["calendar"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "noreply@calendly.com",
+      "subject": "New event: 30-min intro call with Pat Rivera",
+      "snippet": "Pat Rivera booked a 30-minute intro call with you on Friday, April 4 at 11:00 AM PT via Calendly.",
+      "expected_categories": ["calendar"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "events@meetup.com",
+      "subject": "Reminder: AI/ML Practitioners Meetup tomorrow at 6pm",
+      "snippet": "Your RSVP to AI/ML Practitioners Meetup is confirmed for tomorrow. Venue: TechHub SF, 6:00 PM - 8:00 PM.",
+      "expected_categories": ["calendar"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "boss@company.com",
+      "subject": "URGENT: Board meeting moved to 3pm TODAY",
+      "snippet": "The board meeting has been rescheduled from Thursday to today at 3pm. Please update your slides with Q1 numbers ASAP.",
+      "expected_categories": ["calendar", "urgent"],
+      "expected_is_urgent": true,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "noreply@teams.microsoft.com",
+      "subject": "You missed a meeting: Sprint retrospective",
+      "snippet": "You were expected at Sprint retrospective today at 2:00 PM. The meeting has ended. Recording available.",
+      "expected_categories": ["calendar"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "digest@paperswithcode.com",
+      "subject": "Weekly digest: Top ML papers Apr 1-7",
+      "snippet": "This week's trending papers: 1. Self-Healing Agents via Reflection, 2. Efficient KV-Cache Compression, 3. Multi-Modal RAG...",
+      "expected_categories": ["research"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "cfp@neurips.org",
+      "subject": "NeurIPS 2026: Call for papers deadline extended to June 1",
+      "snippet": "The submission deadline for NeurIPS 2026 has been extended to June 1. Topics include: foundation models, alignment, agents...",
+      "expected_categories": ["research"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "scholar-alerts@google.com",
+      "subject": "New citation: Your paper 'Agent Memory Patterns' cited by 3 papers",
+      "snippet": "3 new citations found for your paper. Citing papers: 'Scalable Agent Coordination' by Kim et al., 'Memory-Augmented LLMs'...",
+      "expected_categories": ["research"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "newsletter@huggingface.co",
+      "subject": "HF Weekly: New open-source embedding models, dataset updates",
+      "snippet": "This week: BGE-M3 v2 released with 50% speed improvement, new multilingual datasets, community model benchmarks...",
+      "expected_categories": ["research"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "recommendations@oreilly.com",
+      "subject": "Based on your interests: New book on LLM agents in production",
+      "snippet": "We think you'll like: 'Building Production LLM Agents' by Sarah Chen. Available now on O'Reilly Learning Platform.",
+      "expected_categories": ["research"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "alerts@simplisafe.com",
+      "subject": "Alarm triggered: Back door sensor",
+      "snippet": "Your SimpliSafe alarm was triggered by the Back Door entry sensor at 11:42 PM. Police dispatch has been contacted.",
+      "expected_categories": ["home", "urgent"],
+      "expected_is_urgent": true,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "billing@comcast.com",
+      "subject": "Your internet bill for April 2026",
+      "snippet": "Your Xfinity Internet bill of $79.99 is ready. Due date: April 20, 2026. Auto-pay is enabled.",
+      "expected_categories": ["home", "routine"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "tracking@ups.com",
+      "subject": "UPS: Your package was delivered",
+      "snippet": "Your package from Newegg was delivered to your front porch at 2:15 PM. Signed by: RESIDENT.",
+      "expected_categories": ["home"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "noreply@statefarm.com",
+      "subject": "Your home insurance policy renewal is coming up",
+      "snippet": "Your homeowners policy #HO-1234567 renews on May 1, 2026. Review your coverage and premium at statefarm.com.",
+      "expected_categories": ["home"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "noreply@stripe.com",
+      "subject": "Payment failed: Invoice #INV-2026-0412",
+      "snippet": "We were unable to charge your card ending in 4242 for $49.00. Please update your payment method within 3 days to avoid...",
+      "expected_categories": ["urgent", "routine"],
+      "expected_is_urgent": true,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "security-team@okta.com",
+      "subject": "Suspicious login attempt blocked on your account",
+      "snippet": "We blocked a sign-in attempt from an unrecognized IP (185.22.x.x) in Moscow, Russia. If this was you, verify at...",
+      "expected_categories": ["urgent"],
+      "expected_is_urgent": true,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "noreply@fedex.com",
+      "subject": "FedEx: Shipment delayed — new delivery date April 5",
+      "snippet": "Your package from Best Buy (tracking #7891234) has been delayed due to weather. Updated delivery: April 5.",
+      "expected_categories": ["routine"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "receipts@uber.com",
+      "subject": "Your Uber trip receipt - $24.50",
+      "snippet": "Thanks for riding with Uber. Trip from Downtown to Airport on Apr 1. Total: $24.50. View receipt.",
+      "expected_categories": ["routine"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "noreply@netflix.com",
+      "subject": "Your Netflix plan has been updated",
+      "snippet": "You've changed your plan to Standard with ads ($6.99/month). Your next billing date is May 2, 2026.",
+      "expected_categories": ["routine"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "no-reply@apple.com",
+      "subject": "Your Apple ID receipt - iCloud+ storage",
+      "snippet": "Your iCloud+ 200GB plan ($2.99/month) has been renewed. Next renewal: May 2, 2026. Manage subscriptions...",
+      "expected_categories": ["routine"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "alerts@bankofamerica.com",
+      "subject": "Direct deposit received: $3,245.67",
+      "snippet": "A direct deposit of $3,245.67 from EMPLOYER INC was posted to your checking account ending in 5678.",
+      "expected_categories": ["routine"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "noreply@doordash.com",
+      "subject": "Your DoorDash order is confirmed",
+      "snippet": "Your order from Thai Kitchen is being prepared. Estimated delivery: 45 minutes. Track your order in the app.",
+      "expected_categories": ["routine"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "support@github.com",
+      "subject": "Your GitHub Copilot subscription is active",
+      "snippet": "Welcome to GitHub Copilot Business. Your subscription ($19/month) is now active. Get started with the VS Code extension.",
+      "expected_categories": ["routine"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "noreply@walgreens.com",
+      "subject": "Your prescription is ready for pickup",
+      "snippet": "Your prescription for Lisinopril 10mg is ready at Walgreens #4521. Pickup by April 10 or it will be restocked.",
+      "expected_categories": ["routine"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "noreply@adobe.com",
+      "subject": "Your Creative Cloud payment was processed",
+      "snippet": "Your monthly payment of $54.99 for Adobe Creative Cloud All Apps has been processed. Next billing: May 2.",
+      "expected_categories": ["routine"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "noreply@linkedin.com",
+      "subject": "Your weekly job alert: 15 new AI Engineer roles",
+      "snippet": "Based on your preferences: AI Engineer at Meta, ML Platform Engineer at Stripe, Senior AI at Anthropic... See all 15.",
+      "expected_categories": ["routine"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "promo@bestbuy.com",
+      "subject": "Members-only: Save $200 on Samsung Galaxy S26",
+      "snippet": "Exclusive deal for My Best Buy members! Get the Samsung Galaxy S26 Ultra for $999 (reg $1199). Limited time offer.",
+      "expected_categories": ["spam_noise"],
+      "expected_is_urgent": false,
+      "expected_is_spam": true
+    },
+    {
+      "sender": "mark@seoagency.biz",
+      "subject": "We can get your website to #1 on Google",
+      "snippet": "Hi, I noticed your site clawbot.dev isn't ranking for key terms. Our team can guarantee page 1 rankings within 90 days...",
+      "expected_categories": ["spam_noise"],
+      "expected_is_urgent": false,
+      "expected_is_spam": true
+    },
+    {
+      "sender": "webinar@saasplatform.io",
+      "subject": "You're invited: AI-Powered Customer Success webinar",
+      "snippet": "Join our free webinar on how AI is transforming customer success. Featuring speakers from Salesforce and HubSpot...",
+      "expected_categories": ["spam_noise"],
+      "expected_is_urgent": false,
+      "expected_is_spam": true
+    },
+    {
+      "sender": "updates@twitter.com",
+      "subject": "You have 5 new notifications on X",
+      "snippet": "@techguy liked your post. @aidev retweeted you. 3 others interacted with your posts. See what's happening.",
+      "expected_categories": ["spam_noise"],
+      "expected_is_urgent": false,
+      "expected_is_spam": true
+    },
+    {
+      "sender": "noreply@quora.com",
+      "subject": "Your answer got 100+ views: 'How do LLM agents work?'",
+      "snippet": "Your answer to 'How do LLM agents work?' has been viewed 142 times. 3 people upvoted your answer. See related questions...",
+      "expected_categories": ["spam_noise"],
+      "expected_is_urgent": false,
+      "expected_is_spam": true
+    },
+    {
+      "sender": "deals@groupon.com",
+      "subject": "Up to 80% off local experiences near you",
+      "snippet": "Top deals: Spa day for $39, Wine tasting tour for $29, Indoor skydiving for $49. Limited availability!",
+      "expected_categories": ["spam_noise"],
+      "expected_is_urgent": false,
+      "expected_is_spam": true
+    },
+    {
+      "sender": "lisa@contentmarketing.co",
+      "subject": "Guest post opportunity for your blog",
+      "snippet": "Hi, I'm Lisa from ContentMarketing.co. I'd love to write a guest post for your blog about AI productivity tools...",
+      "expected_categories": ["spam_noise"],
+      "expected_is_urgent": false,
+      "expected_is_spam": true
+    },
+    {
+      "sender": "noreply@medium.com",
+      "subject": "Daily digest: Stories for you",
+      "snippet": "Top stories: 'Why I Left Big Tech for AI Startups', 'The Future of Agent Frameworks', 'Building RAG Pipelines'...",
+      "expected_categories": ["spam_noise"],
+      "expected_is_urgent": false,
+      "expected_is_spam": true
+    },
+    {
+      "sender": "invite@productlaunch.dev",
+      "subject": "Exclusive beta access: AI code reviewer tool",
+      "snippet": "You've been selected for early access to CodeSense AI — an AI-powered code review tool. Sign up now for free beta...",
+      "expected_categories": ["spam_noise"],
+      "expected_is_urgent": false,
+      "expected_is_spam": true
+    },
+    {
+      "sender": "reminder@unused-saas-app.com",
+      "subject": "We miss you! Come back and see what's new",
+      "snippet": "It's been 90 days since your last login. We've added 12 new features including AI dashboard, team analytics...",
+      "expected_categories": ["spam_noise"],
+      "expected_is_urgent": false,
+      "expected_is_spam": true
+    },
+    {
+      "sender": "aws-health@amazon.com",
+      "subject": "AWS Health: EC2 instance degraded performance",
+      "snippet": "Your EC2 instance i-0abc123 in us-west-2 is experiencing degraded network performance. ETA for resolution: 2 hours.",
+      "expected_categories": ["code", "urgent"],
+      "expected_is_urgent": true,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "cto@company.com",
+      "subject": "FYI: Architecture review scheduled for next Tuesday",
+      "snippet": "I've scheduled an architecture review for the email triage system next Tuesday at 10am. Please prepare a system diagram.",
+      "expected_categories": ["calendar", "code"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "noreply@nest.com",
+      "subject": "Nest: Smoke alarm triggered in kitchen",
+      "snippet": "Your Nest Protect detected smoke in the Kitchen at 7:15 PM. If this is a false alarm, silence from the Nest app.",
+      "expected_categories": ["home", "urgent"],
+      "expected_is_urgent": true,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "hr@company.com",
+      "subject": "Action required: Update your tax withholding by April 15",
+      "snippet": "Please review and update your W-4 tax withholding elections by April 15. Log in to the HR portal to make changes.",
+      "expected_categories": ["routine"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    },
+    {
+      "sender": "team@digitalocean.com",
+      "subject": "Your droplet exceeded CPU threshold",
+      "snippet": "Your droplet web-server-01 has been running above 90% CPU for 15 minutes. Consider upgrading or optimizing your workload.",
+      "expected_categories": ["code"],
+      "expected_is_urgent": false,
+      "expected_is_spam": false
+    }
+  ]
+}
