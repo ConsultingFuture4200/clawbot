@@ -1,0 +1,15 @@
+node_modules/
+.env
+*.env.local
+
+# OAuth tokens and secrets
+config/client_secret.json
+sandbox/config/client_secret.json
+sandbox/state/token-*.json
+
+# Claude Code internals
+.claude/
+
+# OS files
+Thumbs.db
+.DS_Store

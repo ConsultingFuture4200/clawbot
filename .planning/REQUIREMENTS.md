@@ -19,44 +19,44 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Classification
 
-- [ ] **CLASS-01**: Comms agent classifies each email into 7 categories: code, calendar, research, home, urgent, routine, spam/noise
-- [ ] **CLASS-02**: Classification uses Gemini structured JSON output with chain-of-thought reasoning
-- [ ] **CLASS-03**: Multi-label support — emails can match multiple categories with confidence scores per label
-- [ ] **CLASS-04**: Confidence thresholds: >0.85 auto-act, 0.70-0.84 act-and-confirm, <0.70 ask user
-- [ ] **CLASS-05**: Batch classification processes 5-10 emails per prompt to stay within Gemini rate limits
+- [x] **CLASS-01**: Comms agent classifies each email into 7 categories: code, calendar, research, home, urgent, routine, spam/noise
+- [x] **CLASS-02**: Classification uses Gemini structured JSON output with chain-of-thought reasoning
+- [x] **CLASS-03**: Multi-label support — emails can match multiple categories with confidence scores per label
+- [x] **CLASS-04**: Confidence thresholds: >0.85 auto-act, 0.70-0.84 act-and-confirm, <0.70 ask user
+- [x] **CLASS-05**: Batch classification processes 5-10 emails per prompt to stay within Gemini rate limits
 - [ ] **CLASS-06**: Few-shot examples file exists with 14-21 labeled examples for prompt tuning
-- [ ] **CLASS-07**: Classification accuracy exceeds 80% on a 50-email test set before moving to delivery phase
+- [x] **CLASS-07**: Classification accuracy exceeds 80% on a 50-email test set before moving to delivery phase
 
 ### Telegram Delivery
 
-- [ ] **TGRAM-01**: User receives Telegram digest grouped by account (personal/work) and priority
-- [ ] **TGRAM-02**: Each digest item shows sender, subject, category, and recommended action
-- [ ] **TGRAM-03**: Smart batching: urgent items trigger immediate notification, low-priority batched every 3 hours
-- [ ] **TGRAM-04**: User can reply with a number to act on a specific email from the digest
-- [ ] **TGRAM-05**: Unknown senders are flagged for review in digest (sender screening)
-- [ ] **TGRAM-06**: Digest respects Telegram message length limits (split if needed)
+- [x] **TGRAM-01**: User receives Telegram digest grouped by account (personal/work) and priority
+- [x] **TGRAM-02**: Each digest item shows sender, subject, category, and recommended action
+- [x] **TGRAM-03**: Smart batching: urgent items trigger immediate notification, low-priority batched every 3 hours
+- [x] **TGRAM-04**: User can reply with a number to act on a specific email from the digest
+- [x] **TGRAM-05**: Unknown senders are flagged for review in digest (sender screening)
+- [x] **TGRAM-06**: Digest respects Telegram message length limits (split if needed)
 
 ### Draft Generation
 
-- [ ] **DRAFT-01**: Comms agent drafts routine acknowledgments (receipts, confirmations → "thanks, got it")
-- [ ] **DRAFT-02**: Comms agent drafts template replies using predefined patterns for common email types
-- [ ] **DRAFT-03**: Comms agent generates AI-powered smart drafts using Claude for contextual replies
-- [ ] **DRAFT-04**: Comms agent drafts calendar RSVP responses (accept/decline based on calendar conflicts)
-- [ ] **DRAFT-05**: All drafts are created as actual Gmail drafts via API (not Telegram-only previews)
+- [x] **DRAFT-01**: Comms agent drafts routine acknowledgments (receipts, confirmations → "thanks, got it")
+- [x] **DRAFT-02**: Comms agent drafts template replies using predefined patterns for common email types
+- [x] **DRAFT-03**: Comms agent generates AI-powered smart drafts using Claude for contextual replies
+- [x] **DRAFT-04**: Comms agent drafts calendar RSVP responses (accept/decline based on calendar conflicts)
+- [x] **DRAFT-05**: All drafts are created as actual Gmail drafts via API (not Telegram-only previews)
 - [ ] **DRAFT-06**: No draft is sent without explicit user approval via Telegram
-- [ ] **DRAFT-07**: Drafts clearly label which Gmail account they belong to (personal/work)
+- [x] **DRAFT-07**: Drafts clearly label which Gmail account they belong to (personal/work)
 
 ### Agent Delegation
 
-- [ ] **DELEG-01**: Comms agent delegates classified emails to target agents via @mention syntax (@dev, @productivity, @research, @home, @main)
-- [ ] **DELEG-02**: Code/PR emails route to dev agent with relevant context
-- [ ] **DELEG-03**: Calendar emails route to productivity agent for scheduling analysis
-- [ ] **DELEG-04**: Research/newsletter emails route to research agent for summarization
-- [ ] **DELEG-05**: Home/IoT alerts route to home agent for status assessment
-- [ ] **DELEG-06**: Urgent items route to main agent for immediate Telegram alert
-- [ ] **DELEG-07**: Delegation queue holds items when target agent is unavailable, notifies user
-- [ ] **DELEG-08**: Agent results aggregate back through Telegram to user
-- [ ] **DELEG-09**: Comms agent tracks delegated items and follows up if no action taken within timeout
+- [x] **DELEG-01**: Comms agent delegates classified emails to target agents via @mention syntax (@dev, @productivity, @research, @home, @main)
+- [x] **DELEG-02**: Code/PR emails route to dev agent with relevant context
+- [x] **DELEG-03**: Calendar emails route to productivity agent for scheduling analysis
+- [x] **DELEG-04**: Research/newsletter emails route to research agent for summarization
+- [x] **DELEG-05**: Home/IoT alerts route to home agent for status assessment
+- [x] **DELEG-06**: Urgent items route to main agent for immediate Telegram alert
+- [x] **DELEG-07**: Delegation queue holds items when target agent is unavailable, notifies user
+- [x] **DELEG-08**: Agent results aggregate back through Telegram to user
+- [x] **DELEG-09**: Comms agent tracks delegated items and follows up if no action taken within timeout
 
 ### Learning Memory
 
@@ -112,35 +112,35 @@ Which phases cover which requirements. Updated during roadmap creation.
 | GMAIL-05 | Phase 1 | Complete |
 | GMAIL-06 | Phase 1 | Complete |
 | GMAIL-07 | Phase 1 | Complete |
-| CLASS-01 | Phase 2 | Pending |
-| CLASS-02 | Phase 2 | Pending |
-| CLASS-03 | Phase 2 | Pending |
-| CLASS-04 | Phase 2 | Pending |
-| CLASS-05 | Phase 2 | Pending |
+| CLASS-01 | Phase 2 | Complete |
+| CLASS-02 | Phase 2 | Complete |
+| CLASS-03 | Phase 2 | Complete |
+| CLASS-04 | Phase 2 | Complete |
+| CLASS-05 | Phase 2 | Complete |
 | CLASS-06 | Phase 2 | Pending |
-| CLASS-07 | Phase 2 | Pending |
-| TGRAM-01 | Phase 2 | Pending |
-| TGRAM-02 | Phase 2 | Pending |
-| TGRAM-03 | Phase 2 | Pending |
-| TGRAM-04 | Phase 2 | Pending |
-| TGRAM-05 | Phase 2 | Pending |
-| TGRAM-06 | Phase 2 | Pending |
-| DRAFT-01 | Phase 3 | Pending |
-| DRAFT-02 | Phase 3 | Pending |
-| DRAFT-03 | Phase 3 | Pending |
-| DRAFT-04 | Phase 3 | Pending |
-| DRAFT-05 | Phase 3 | Pending |
+| CLASS-07 | Phase 2 | Complete |
+| TGRAM-01 | Phase 2 | Complete |
+| TGRAM-02 | Phase 2 | Complete |
+| TGRAM-03 | Phase 2 | Complete |
+| TGRAM-04 | Phase 2 | Complete |
+| TGRAM-05 | Phase 2 | Complete |
+| TGRAM-06 | Phase 2 | Complete |
+| DRAFT-01 | Phase 3 | Complete |
+| DRAFT-02 | Phase 3 | Complete |
+| DRAFT-03 | Phase 3 | Complete |
+| DRAFT-04 | Phase 3 | Complete |
+| DRAFT-05 | Phase 3 | Complete |
 | DRAFT-06 | Phase 3 | Pending |
-| DRAFT-07 | Phase 3 | Pending |
-| DELEG-01 | Phase 3 | Pending |
-| DELEG-02 | Phase 3 | Pending |
-| DELEG-03 | Phase 3 | Pending |
-| DELEG-04 | Phase 3 | Pending |
-| DELEG-05 | Phase 3 | Pending |
-| DELEG-06 | Phase 3 | Pending |
-| DELEG-07 | Phase 3 | Pending |
-| DELEG-08 | Phase 3 | Pending |
-| DELEG-09 | Phase 3 | Pending |
+| DRAFT-07 | Phase 3 | Complete |
+| DELEG-01 | Phase 3 | Complete |
+| DELEG-02 | Phase 3 | Complete |
+| DELEG-03 | Phase 3 | Complete |
+| DELEG-04 | Phase 3 | Complete |
+| DELEG-05 | Phase 3 | Complete |
+| DELEG-06 | Phase 3 | Complete |
+| DELEG-07 | Phase 3 | Complete |
+| DELEG-08 | Phase 3 | Complete |
+| DELEG-09 | Phase 3 | Complete |
 | LEARN-01 | Phase 4 | Pending |
 | LEARN-02 | Phase 4 | Pending |
 | LEARN-03 | Phase 4 | Pending |
