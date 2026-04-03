@@ -2,7 +2,13 @@
 
 const { runSpamGateBatch } = require('./spam-gate');
 const { classifyPipeline } = require('./classifier');
-const { processClassifiedEmails, handleDigestReply: _handleDigestReply } = require('./delivery');
+const {
+  processClassifiedEmails,
+  handleDigestReply: _handleDigestReply,
+  handleCallbackQuery: _handleCallbackQuery,
+  handleDelegationResult: _handleDelegationResult,
+  runHeartbeatMaintenance: _runHeartbeatMaintenance
+} = require('./delivery');
 const { formatEmptyState, formatErrorState } = require('./digest-formatter');
 
 // ---------------------------------------------------------------------------
@@ -22,10 +28,12 @@ const { formatEmptyState, formatErrorState } = require('./digest-formatter');
  * @param {'personal' | 'work'} account
  *   Which Gmail account these emails belong to.
  * @param {function} telegramSendFn
- *   async (text, parseMode) => telegramMessageId
+ *   async (text, parseMode, replyMarkup?) => telegramMessageId
+ * @param {function} [sessionSpawnFn]
+ *   async ({ agentId, task, label, runTimeoutSeconds }) => { status, runId, childSessionKey }
  * @returns {Promise<object>} Pipeline result summary.
  */
-async function handleNewEmails(emails, account, telegramSendFn) {
+async function handleNewEmails(emails, account, telegramSendFn, sessionSpawnFn) {
   const startTime = Date.now();
 
   try {
@@ -89,7 +97,7 @@ async function handleNewEmails(emails, account, telegramSendFn) {
     // Stage 3: Delivery (Telegram)
     // -----------------------------------------------------------------------
     const deliverStart = Date.now();
-    const deliveryResult = await processClassifiedEmails(classifyResult, telegramSendFn);
+    const deliveryResult = await processClassifiedEmails(classifyResult, telegramSendFn, sessionSpawnFn);
     console.log(
       `[classify-email] Stage 3 (deliver): urgent=${deliveryResult.urgent_sent}, buffered=${deliveryResult.buffered}, digests=${deliveryResult.digests_sent.length} — ${Date.now() - deliverStart}ms`
     );
@@ -127,17 +135,43 @@ async function handleNewEmails(emails, account, telegramSendFn) {
 /**
  * Handle a user's numbered reply to a digest or urgent notification.
  * Re-export from delivery.js.
- *
- * @param {string} telegramMsgId - Telegram message ID being replied to.
- * @param {string} replyText - The user's reply text.
- * @returns {object} Result with success/error info.
  */
 function handleDigestReply(telegramMsgId, replyText) {
   return _handleDigestReply(telegramMsgId, replyText);
+}
+
+/**
+ * Handle a Telegram inline keyboard callback query.
+ * Re-export from delivery.js.
+ */
+function handleCallbackQuery(callbackData, telegramSendFn) {
+  return _handleCallbackQuery(callbackData, telegramSendFn);
+}
+
+/**
+ * Handle a delegation result when a sub-agent completes.
+ * Re-export from delivery.js.
+ */
+async function handleDelegationResult(runId, result, telegramSendFn) {
+  return _handleDelegationResult(runId, result, telegramSendFn);
+}
+
+/**
+ * Run periodic heartbeat maintenance (delegation retries, follow-ups, draft expiry).
+ * Re-export from delivery.js.
+ */
+async function runHeartbeatMaintenance(sessionSpawnFn, telegramSendFn) {
+  return _runHeartbeatMaintenance(sessionSpawnFn, telegramSendFn);
 }
 
 // ---------------------------------------------------------------------------
 // Exports
 // ---------------------------------------------------------------------------
 
-module.exports = { handleNewEmails, handleDigestReply };
+module.exports = {
+  handleNewEmails,
+  handleDigestReply,
+  handleCallbackQuery,
+  handleDelegationResult,
+  runHeartbeatMaintenance
+};

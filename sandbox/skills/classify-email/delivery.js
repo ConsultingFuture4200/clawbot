@@ -6,9 +6,34 @@ const {
   formatDigest,
   formatUrgentNotification,
   formatEmptyState,
-  formatErrorState
+  formatErrorState,
+  formatDraftNotification,
+  formatUrgentDraftNotification,
+  buildDraftApprovalKeyboard,
+  formatDelegationResult,
+  formatDelegationNudge,
+  escapeHtml
 } = require('./digest-formatter');
-const { CONFIDENCE_THRESHOLDS } = require('./types');
+const {
+  CONFIDENCE_THRESHOLDS,
+  DRAFT_CATEGORIES,
+  DELEGATION_CATEGORIES,
+  DRAFT_TRACKER_PATH
+} = require('./types');
+const {
+  generateDraft,
+  generateSmartDraft,
+  updateDraftStatus,
+  cleanupExpiredDrafts,
+  deleteGmailDraft,
+  getGmailClient
+} = require('./draft-generator');
+const {
+  delegateToAgent,
+  processDelegationQueue,
+  checkFollowUps,
+  markDelegationComplete
+} = require('./delegator');
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -339,13 +364,16 @@ function handleDigestReply(telegramMsgId, replyText) {
  * After processing, check if any account digests should be sent.
  *
  * @param {object} classifiedResults - Output from classifyPipeline: { classified: [...], failed: [...] }
- * @param {function} telegramSendFn - async (text, parseMode) => telegramMessageId
- * @returns {Promise<object>} Summary: { urgent_sent, buffered, failed, digests_sent }
+ * @param {function} telegramSendFn - async (text, parseMode, replyMarkup?) => telegramMessageId
+ * @param {function} [sessionSpawnFn] - async ({ agentId, task, label, runTimeoutSeconds }) => { status, runId, childSessionKey }
+ * @returns {Promise<object>} Summary: { urgent_sent, buffered, failed, digests_sent, drafts_created, delegations }
  */
-async function processClassifiedEmails(classifiedResults, telegramSendFn) {
+async function processClassifiedEmails(classifiedResults, telegramSendFn, sessionSpawnFn) {
   let urgentSent = 0;
   let buffered = 0;
   const failedCount = classifiedResults.failed ? classifiedResults.failed.length : 0;
+  const draftResults = [];
+  const delegationResults = [];
 
   // Process each classified email
   for (const email of classifiedResults.classified) {
@@ -355,6 +383,56 @@ async function processClassifiedEmails(classifiedResults, telegramSendFn) {
     } else {
       addToBatchBuffer(email);
       buffered++;
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // Stage 3b: Draft generation (D-03, D-16)
+  // -----------------------------------------------------------------------
+  for (const email of classifiedResults.classified) {
+    const primaryCategory = email.categories[0].category;
+
+    // Auto-draft for routine and calendar (D-03)
+    if (['routine', 'calendar'].includes(primaryCategory)) {
+      const draftResult = await generateDraft(email);
+      if (draftResult.created || draftResult.updated) {
+        if (email.delivery === 'immediate') {
+          const msg = formatUrgentDraftNotification(email, draftResult);
+          const kb = buildDraftApprovalKeyboard(draftResult.draftId, email.threadId, email.account);
+          await telegramSendFn(msg, 'HTML', kb);
+        }
+        draftResults.push(draftResult);
+      }
+    }
+
+    // Auto smart draft for urgent (D-04)
+    if (primaryCategory === 'urgent') {
+      const draftResult = await generateSmartDraft(email);
+      if (draftResult.created || draftResult.updated) {
+        const msg = formatUrgentDraftNotification(email, draftResult);
+        const kb = buildDraftApprovalKeyboard(draftResult.draftId, email.threadId, email.account);
+        await telegramSendFn(msg, 'HTML', kb);
+        draftResults.push(draftResult);
+      }
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // Stage 3c: Delegation (D-06, D-07)
+  // -----------------------------------------------------------------------
+  if (sessionSpawnFn) {
+    for (const email of classifiedResults.classified) {
+      const primaryCategory = email.categories[0].category;
+      if (DELEGATION_CATEGORIES.includes(primaryCategory)) {
+        const delegResult = await delegateToAgent(email, sessionSpawnFn);
+        if (delegResult.queued) {
+          await telegramSendFn(
+            `@${delegResult.agentId} unavailable — queued "${escapeHtml(email.subject)}". Will retry in 15m.`,
+            'HTML'
+          );
+        }
+        delegationResults.push(delegResult);
+      }
     }
   }
 
@@ -380,8 +458,140 @@ async function processClassifiedEmails(classifiedResults, telegramSendFn) {
     urgent_sent: urgentSent,
     buffered: buffered,
     failed: failedCount,
-    digests_sent: digestsSent
+    digests_sent: digestsSent,
+    drafts_created: draftResults.length,
+    delegations: delegationResults.length,
+    draftResults,
+    delegationResults
   };
+}
+
+// ---------------------------------------------------------------------------
+// Callback query handler (Telegram inline keyboard actions)
+// ---------------------------------------------------------------------------
+
+/**
+ * Handle a Telegram callback query from inline keyboard button press.
+ * Actions: da (approve & send), dd (discard), de (quick edit), ds (snooze).
+ *
+ * @param {string} callbackData - Callback data string from Telegram (e.g. "da:abc123def456").
+ * @param {function} telegramSendFn - async (text, parseMode) => telegramMessageId
+ * @returns {Promise<object>} Result with success/error info.
+ */
+async function handleCallbackQuery(callbackData, telegramSendFn) {
+  const parts = callbackData.split(':');
+  const action = parts[0];
+  const shortKey = parts[1];
+
+  // Load draft tracker to resolve shortKey to full draft info
+  const tracker = loadState(DRAFT_TRACKER_PATH);
+  const threadId = Object.keys(tracker.drafts).find(k => tracker.drafts[k].short_key === shortKey);
+  const entry = threadId ? tracker.drafts[threadId] : null;
+
+  if (!entry) {
+    return { error: 'draft_not_found', message: 'Draft not found or already processed.' };
+  }
+
+  switch (action) {
+    case 'da': {
+      // Approve & Send
+      const gmail = getGmailClient(entry.account);
+      await gmail.users.drafts.send({ userId: 'me', requestBody: { id: entry.draftId } });
+      updateDraftStatus(threadId, 'approved');
+      await telegramSendFn(`Draft sent for "${escapeHtml(entry.subject)}" (${entry.account}).`, 'HTML');
+      return { success: true, action: 'approved' };
+    }
+
+    case 'dd': {
+      // Discard
+      await deleteGmailDraft(entry.account, entry.draftId);
+      updateDraftStatus(threadId, 'discarded');
+      await telegramSendFn(`Draft discarded for "${escapeHtml(entry.subject)}".`, 'HTML');
+      return { success: true, action: 'discarded' };
+    }
+
+    case 'de': {
+      // Quick Edit -- set state to awaiting edit text
+      updateDraftStatus(threadId, 'editing');
+      await telegramSendFn(`Reply with your edited text for "${escapeHtml(entry.subject)}". I'll update the Gmail draft.`, 'HTML');
+      return { success: true, action: 'editing', threadId };
+    }
+
+    case 'ds': {
+      // Snooze
+      const duration = parts[2]; // '1', '3', or 't' (tomorrow)
+      let snoozeUntil;
+      const now = new Date();
+      if (duration === 't') {
+        snoozeUntil = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 9, 0, 0);
+      } else {
+        snoozeUntil = new Date(now.getTime() + parseInt(duration, 10) * 60 * 60 * 1000);
+      }
+      tracker.drafts[threadId].snooze_until = snoozeUntil.toISOString();
+      saveState(DRAFT_TRACKER_PATH, tracker);
+      const label = duration === 't' ? 'tomorrow 9 AM' : `${duration} hour(s)`;
+      await telegramSendFn(`Draft snoozed for "${escapeHtml(entry.subject)}" until ${label}.`, 'HTML');
+      return { success: true, action: 'snoozed', until: snoozeUntil.toISOString() };
+    }
+
+    default: {
+      return { error: 'unknown_action', message: `Unknown action: ${action}` };
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Delegation result handler (DELEG-08 announce-back)
+// ---------------------------------------------------------------------------
+
+/**
+ * Handle a delegation result when a sub-agent completes.
+ *
+ * @param {string} runId - The runId from sessions_spawn.
+ * @param {*} result - The result from the sub-agent.
+ * @param {function} telegramSendFn - async (text, parseMode) => telegramMessageId
+ * @returns {Promise<object>} Result with success/error info.
+ */
+async function handleDelegationResult(runId, result, telegramSendFn) {
+  const entry = markDelegationComplete(runId, result);
+  if (!entry) {
+    console.log(`[delivery] No delegation found for runId: ${runId}`);
+    return { error: true, message: 'delegation_not_found' };
+  }
+
+  const subject = entry.context ? entry.context.subject : 'Unknown';
+  const agentId = entry.target_agent;
+  const message = formatDelegationResult(agentId, subject, result);
+  await telegramSendFn(message, 'HTML');
+
+  return { success: true, agentId, subject };
+}
+
+// ---------------------------------------------------------------------------
+// Heartbeat maintenance
+// ---------------------------------------------------------------------------
+
+/**
+ * Run periodic maintenance tasks: delegation retry queue, follow-ups, draft expiry.
+ *
+ * @param {function} sessionSpawnFn - async ({ agentId, task, label, runTimeoutSeconds }) => result
+ * @param {function} telegramSendFn - async (text, parseMode) => telegramMessageId
+ * @returns {Promise<object>} Maintenance results summary.
+ */
+async function runHeartbeatMaintenance(sessionSpawnFn, telegramSendFn) {
+  // 1. Process delegation retry queue
+  const queueResult = await processDelegationQueue(sessionSpawnFn, telegramSendFn);
+
+  // 2. Check delegation follow-ups
+  const followUpResult = await checkFollowUps(telegramSendFn);
+
+  // 3. Cleanup expired drafts (D-17)
+  const expiredSubjects = await cleanupExpiredDrafts();
+  for (const subject of expiredSubjects) {
+    await telegramSendFn(`Draft expired: "${escapeHtml(subject)}". No action taken.`, 'HTML');
+  }
+
+  return { queue: queueResult, followUps: followUpResult, expiredDrafts: expiredSubjects.length };
 }
 
 // ---------------------------------------------------------------------------
@@ -395,6 +605,9 @@ module.exports = {
   sendUrgentNotification,
   handleDigestReply,
   processClassifiedEmails,
+  handleCallbackQuery,
+  handleDelegationResult,
+  runHeartbeatMaintenance,
 
   // Exposed for testing
   BATCH_INTERVAL_HOURS,
