@@ -65,9 +65,9 @@ Plans:
   5. Delegation results aggregate back to the user through Telegram
 **Plans**: 4 plans
 Plans:
-- [ ] 03-01-PLAN.md — Draft generation: types, templates, MIME threading, Gmail draft creation, calendar conflict detection
-- [ ] 03-02-PLAN.md — Agent delegation: sessions_spawn routing, queue with retry/dead-letter, follow-up tracking, OpenClaw config
-- [ ] 03-03-PLAN.md — Pipeline wiring: draft/delegation integration, Telegram inline keyboards, callback handler, heartbeat maintenance
+- [x] 03-01-PLAN.md — Draft generation: types, templates, MIME threading, Gmail draft creation, calendar conflict detection
+- [x] 03-02-PLAN.md — Agent delegation: sessions_spawn routing, queue with retry/dead-letter, follow-up tracking, OpenClaw config
+- [x] 03-03-PLAN.md — Pipeline wiring: draft/delegation integration, Telegram inline keyboards, callback handler, heartbeat maintenance
 - [ ] 03-04-PLAN.md — Phase 3 verification: 29-check module validation + human sign-off
 
 ### Phase 4: Intelligence Layer
@@ -91,5 +91,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 / 4 (Phase 3 and 4 can run in paral
 |-------|----------------|--------|-----------|
 | 1. Gmail Foundation | 3/3 | Complete | 2026-04-01 |
 | 2. Classification & Delivery | 3/4 | In Progress|  |
-| 3. Drafts & Delegation | 0/4 | Not started | - |
+| 3. Drafts & Delegation | 0/4 | Planned    |  |
 | 4. Intelligence Layer | 0/? | Not started | - |
