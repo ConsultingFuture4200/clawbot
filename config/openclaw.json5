@@ -85,6 +85,15 @@
       "fallback": ["anthropic/claude-sonnet-4-6"],
       "soul": "agents/comms/SOUL.md",
       "skills": ["gmail", "google-calendar"],
+      // Inter-agent delegation (Phase 3: Drafts & Delegation)
+      // IMPORTANT: "comms" must be in its own allow list to work around Bug #5813
+      // where agentToAgent.enabled breaks sessions_spawn if spawning agent is not listed
+      "tools": {
+        "agentToAgent": {
+          "enabled": true,
+          "allow": ["comms", "dev", "research", "productivity", "home", "main"]
+        }
+      },
       "heartbeat": {
         "enabled": true,
         "every": "30m",
