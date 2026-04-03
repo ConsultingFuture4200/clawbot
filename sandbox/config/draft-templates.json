@@ -1,0 +1,28 @@
+{
+  "routine_ack": {
+    "patterns": ["receipt", "confirmation", "notification", "update", "newsletter"],
+    "templates": [
+      "Thanks for the update. Noted.",
+      "Got it, thanks!",
+      "Thanks for letting me know.",
+      "Acknowledged. Thanks for sending this over."
+    ]
+  },
+  "calendar_accept": {
+    "template": "Thanks for the invite! I'll be there.",
+    "with_conflict": "I have a scheduling conflict during that time. Let me check if I can move things around and get back to you."
+  },
+  "calendar_decline": {
+    "template": "Thanks for the invite, but I won't be able to make it. Could you share any notes/recording afterward?",
+    "with_conflict": "Unfortunately I have a conflict at that time ({conflict_event}). Would any of these alternative times work? {alternatives}"
+  },
+  "calendar_tentative": {
+    "template": "Thanks for the invite. I'm tentatively available but will confirm closer to the date."
+  },
+  "follow_up": {
+    "template": "Thanks for following up. Let me look into this and get back to you shortly."
+  },
+  "info_request": {
+    "template": "Thanks for reaching out. I'll review this and respond with the information you need."
+  }
+}

@@ -46,11 +46,60 @@ const OLLAMA_MODEL = 'qwen2.5:7b';
 const OLLAMA_URL = 'http://127.0.0.1:11434';
 
 // ---------------------------------------------------------------------------
+// Draft generation constants (Phase 3)
+// ---------------------------------------------------------------------------
+
+/** Categories that get auto-drafts (D-01, D-02). */
+const DRAFT_CATEGORIES = ['routine', 'calendar', 'urgent'];
+
+/** Categories that get delegated to sibling agents (D-07). */
+const DELEGATION_CATEGORIES = ['code', 'calendar', 'research', 'home', 'urgent'];
+
+/** Categories that get no draft, no delegation (D-02). */
+const NO_DRAFT_CATEGORIES = ['spam_noise'];
+
+/** Unclaimed draft expiry in hours (D-17). */
+const DRAFT_TTL_HOURS = 48;
+
+/** Max retry attempts for delegation (D-09). */
+const DELEGATION_MAX_RETRIES = 3;
+
+/** Delay between delegation retries in minutes (D-09). */
+const DELEGATION_RETRY_DELAY_MINUTES = 15;
+
+/** Follow-up timeout for delegated items in hours (D-10). */
+const DELEGATION_FOLLOW_UP_HOURS = 2;
+
+/** Smart draft model (D-05). */
+const CLAUDE_MODEL = 'claude-sonnet-4-6';
+
+/** Anthropic API endpoint for Claude calls. */
+const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
+
+/** Delegation routing map: category -> target agent (D-07). */
+const DELEGATION_ROUTING = {
+  code: 'dev',
+  calendar: 'productivity',
+  research: 'research',
+  home: 'home',
+  urgent: 'main'
+};
+
+// ---------------------------------------------------------------------------
 // File paths (sandbox runtime paths)
 // ---------------------------------------------------------------------------
 
 const SCHEMA_PATH = '/sandbox/config/classification-schema.json';
 const EXAMPLES_PATH = '/sandbox/config/classification-examples.json';
+
+/** Draft tracker state file path. */
+const DRAFT_TRACKER_PATH = '/sandbox/state/draft-tracker.json';
+
+/** Delegation queue state file path. */
+const DELEGATION_QUEUE_PATH = '/sandbox/state/delegation-queue.json';
+
+/** Predefined draft templates config path. */
+const DRAFT_TEMPLATES_PATH = '/sandbox/config/draft-templates.json';
 
 // ---------------------------------------------------------------------------
 // Loaders
@@ -168,9 +217,24 @@ module.exports = {
   OLLAMA_MODEL,
   OLLAMA_URL,
 
+  // Draft / delegation constants (Phase 3)
+  DRAFT_CATEGORIES,
+  DELEGATION_CATEGORIES,
+  NO_DRAFT_CATEGORIES,
+  DRAFT_TTL_HOURS,
+  DELEGATION_MAX_RETRIES,
+  DELEGATION_RETRY_DELAY_MINUTES,
+  DELEGATION_FOLLOW_UP_HOURS,
+  CLAUDE_MODEL,
+  ANTHROPIC_API_URL,
+  DELEGATION_ROUTING,
+
   // File paths
   SCHEMA_PATH,
   EXAMPLES_PATH,
+  DRAFT_TRACKER_PATH,
+  DELEGATION_QUEUE_PATH,
+  DRAFT_TEMPLATES_PATH,
 
   // Loaders
   loadClassificationSchema,
