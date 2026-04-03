@@ -253,6 +253,145 @@ function formatErrorState(errorType, details) {
 }
 
 // ---------------------------------------------------------------------------
+// Draft notification formatting
+// ---------------------------------------------------------------------------
+
+/**
+ * Format a Telegram notification for a created draft.
+ * Uses HTML parse mode. All user-sourced strings escaped.
+ *
+ * @param {object} classifiedEmail - Classified email object.
+ * @param {object} draftResult - Result from generateDraft/generateSmartDraft.
+ * @returns {string} HTML-formatted Telegram message.
+ */
+function formatDraftNotification(classifiedEmail, draftResult) {
+  const account = classifiedEmail.account.toUpperCase();
+  const sender = escapeHtml(classifiedEmail.sender);
+  const subject = escapeHtml(classifiedEmail.subject);
+  const primary = classifiedEmail.categories[0];
+  const categoryTag = CATEGORY_TAG_MAP[primary.category] || primary.category.toUpperCase();
+  const category = primary.category;
+  const model = category === 'urgent' ? 'Claude' : 'Gemini';
+  const preview = draftResult.draftText
+    ? escapeHtml(draftResult.draftText.slice(0, 100))
+    : '';
+
+  return [
+    `<b>Draft ready (${account})</b>`,
+    '',
+    `From: ${sender}`,
+    `Subject: "${subject}"`,
+    `Category: ${categoryTag}`,
+    `Draft type: ${escapeHtml(category)} (via ${model})`,
+    '',
+    `${preview}...`,
+    '',
+    '<i>Use the buttons below to approve, edit, or discard this draft.</i>'
+  ].join('\n');
+}
+
+/**
+ * Format an urgent draft notification for immediate delivery.
+ *
+ * @param {object} classifiedEmail - Classified email with urgent priority.
+ * @param {object} draftResult - Result from generateSmartDraft.
+ * @returns {string} HTML-formatted Telegram message.
+ */
+function formatUrgentDraftNotification(classifiedEmail, draftResult) {
+  const account = classifiedEmail.account.toUpperCase();
+  const sender = escapeHtml(classifiedEmail.sender);
+  const subject = escapeHtml(classifiedEmail.subject);
+  const preview = draftResult.draftText
+    ? escapeHtml(draftResult.draftText.slice(0, 200))
+    : '';
+
+  return [
+    `<b>URGENT -- Draft ready (${account})</b>`,
+    '',
+    `From: ${sender}`,
+    `Subject: "${subject}"`,
+    '',
+    'Draft preview:',
+    `"${preview}..."`,
+    '',
+    '<i>Approve to send, or edit in Gmail for full formatting.</i>'
+  ].join('\n');
+}
+
+/**
+ * Build a Telegram inline keyboard for draft approval actions.
+ *
+ * CRITICAL: Telegram callback_data has a 64-byte limit (Pitfall 4).
+ * Uses short prefixes (da: dd: de: ds:) + draftId.slice(0,12).
+ *
+ * @param {string} draftId - Gmail draft ID (will be truncated to 12 chars).
+ * @param {string} threadId - Gmail thread ID (for reference, not in callback_data).
+ * @param {'personal' | 'work'} account - Gmail account.
+ * @returns {object} Telegram inline_keyboard object.
+ */
+function buildDraftApprovalKeyboard(draftId, threadId, account) {
+  const shortKey = draftId.slice(0, 12);
+  const accountIndex = account === 'work' ? '1' : '0';
+
+  return {
+    inline_keyboard: [
+      [
+        { text: 'Approve & Send', callback_data: `da:${shortKey}` },
+        { text: 'Discard', callback_data: `dd:${shortKey}` }
+      ],
+      [
+        { text: 'Edit in Gmail', url: `https://mail.google.com/mail/u/${accountIndex}/#drafts` },
+        { text: 'Quick Edit', callback_data: `de:${shortKey}` }
+      ],
+      [
+        { text: '1hr', callback_data: `ds:${shortKey}:1` },
+        { text: '3hr', callback_data: `ds:${shortKey}:3` },
+        { text: 'Tomorrow', callback_data: `ds:${shortKey}:t` }
+      ]
+    ]
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Delegation result formatting
+// ---------------------------------------------------------------------------
+
+/**
+ * Format a delegation completion notification for Telegram (DELEG-08).
+ *
+ * @param {string} agentId - The agent that completed the delegation.
+ * @param {string} subject - Original email subject.
+ * @param {*} result - Result data from the sub-agent.
+ * @returns {string} HTML-formatted Telegram message.
+ */
+function formatDelegationResult(agentId, subject, result) {
+  const safeSubject = escapeHtml(subject);
+  const summary = typeof result === 'string'
+    ? escapeHtml(result)
+    : escapeHtml(JSON.stringify(result));
+
+  return [
+    `<b>Agent update: @${escapeHtml(agentId)}</b>`,
+    '',
+    `Re: "${safeSubject}"`,
+    summary
+  ].join('\n');
+}
+
+/**
+ * Format a delegation follow-up nudge for Telegram.
+ *
+ * @param {string} agentId - The agent that has not responded.
+ * @param {string} subject - Original email subject.
+ * @param {number} hoursAgo - Hours since delegation.
+ * @returns {string} HTML-formatted Telegram message.
+ */
+function formatDelegationNudge(agentId, subject, hoursAgo) {
+  const safeSubject = escapeHtml(subject);
+  return `@${escapeHtml(agentId)} hasn't responded to "${safeSubject}" (delegated ${hoursAgo}h ago). Nudge the agent or take over?`;
+}
+
+// ---------------------------------------------------------------------------
 // Exports
 // ---------------------------------------------------------------------------
 
@@ -262,6 +401,15 @@ module.exports = {
   formatEmptyState,
   formatErrorState,
   escapeHtml,
+
+  // Draft notification formatting
+  formatDraftNotification,
+  formatUrgentDraftNotification,
+  buildDraftApprovalKeyboard,
+
+  // Delegation result formatting
+  formatDelegationResult,
+  formatDelegationNudge,
 
   // Exposed for testing
   MAX_MSG_LENGTH,
