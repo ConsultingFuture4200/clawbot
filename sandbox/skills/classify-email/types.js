@@ -46,6 +46,34 @@ const OLLAMA_MODEL = 'qwen2.5:7b';
 const OLLAMA_URL = 'http://127.0.0.1:11434';
 
 // ---------------------------------------------------------------------------
+// Delegation constants (Phase 3: Drafts & Delegation)
+// ---------------------------------------------------------------------------
+
+/** Categories that trigger delegation to sibling agents. */
+const DELEGATION_CATEGORIES = ['code', 'calendar', 'research', 'home', 'urgent'];
+
+/** Mapping from delegation category to target agent name. */
+const DELEGATION_ROUTING = {
+  code: 'dev',
+  calendar: 'productivity',
+  research: 'research',
+  home: 'home',
+  urgent: 'main'
+};
+
+/** Maximum retry attempts for failed delegations. */
+const DELEGATION_MAX_RETRIES = 3;
+
+/** Minutes between retry attempts for queued delegations. */
+const DELEGATION_RETRY_DELAY_MINUTES = 15;
+
+/** Hours before sending a follow-up nudge for active delegations. */
+const DELEGATION_FOLLOW_UP_HOURS = 2;
+
+/** Path to the delegation queue state file. */
+const DELEGATION_QUEUE_PATH = '/sandbox/state/delegation-queue.json';
+
+// ---------------------------------------------------------------------------
 // File paths (sandbox runtime paths)
 // ---------------------------------------------------------------------------
 
@@ -181,5 +209,13 @@ module.exports = {
   buildSpamGatePrompt,
 
   // Utilities
-  getConfidenceTier
+  getConfidenceTier,
+
+  // Delegation constants (Phase 3: Drafts & Delegation)
+  DELEGATION_CATEGORIES,
+  DELEGATION_ROUTING,
+  DELEGATION_MAX_RETRIES,
+  DELEGATION_RETRY_DELAY_MINUTES,
+  DELEGATION_FOLLOW_UP_HOURS,
+  DELEGATION_QUEUE_PATH
 };
