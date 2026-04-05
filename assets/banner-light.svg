@@ -1,0 +1,54 @@
+<svg viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Light variant: light background with subtle dot pattern and teal accent -->
+  <defs>
+    <linearGradient id="bg-light" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F6F8FA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EAEEF2;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="dots-light" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#00ADD8" opacity="0.08" />
+    </pattern>
+    <linearGradient id="accent-line-light" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00ADD8;stop-opacity:0" />
+      <stop offset="30%" style="stop-color:#00ADD8;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#00ADD8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00ADD8;stop-opacity:0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="200" fill="url(#bg-light)" />
+
+  <!-- Geometric dot pattern overlay -->
+  <rect width="800" height="200" fill="url(#dots-light)" />
+
+  <!-- Subtle left accent block -->
+  <rect x="0" y="0" width="4" height="200" fill="#00ADD8" opacity="0.7" />
+
+  <!-- Accent separator line -->
+  <rect x="60" y="112" width="680" height="1" fill="url(#accent-line-light)" opacity="0.5" />
+
+  <!-- Project name -->
+  <text
+    x="400" y="88"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+    font-size="52"
+    font-weight="700"
+    letter-spacing="-1"
+    fill="#0D1117"
+    text-anchor="middle"
+    dominant-baseline="middle"
+  >ClawBot</text>
+
+  <!-- Tagline -->
+  <text
+    x="400" y="146"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+    font-size="16"
+    font-weight="400"
+    letter-spacing="0.5"
+    fill="#57606A"
+    text-anchor="middle"
+    dominant-baseline="middle"
+  >Personal multi-agent AI assistant · OpenClaw + NemoClaw on WSL2/Docker</text>
+</svg>
